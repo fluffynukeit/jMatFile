@@ -1,0 +1,28 @@
+{
+  "name": "jMatFile",
+  "version": "0.0.0",
+  "description": "jBinary types for reading Matlab mat files.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fluffynukeit/jMatFile.git"
+  },
+  "keywords": [
+    "Matlab",
+    "mat",
+    "jBinary"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fluffynukeit/jMatFile/issues"
+  },
+  "devDependencies": {
+    "chai": "^2.1.0",
+    "jbinary": "^2.1.2",
+    "mocha": "^2.1.0"
+  }
+}

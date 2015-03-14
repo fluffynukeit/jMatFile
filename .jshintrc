@@ -1,0 +1,31 @@
+{
+  "asi": true,
+  "bitwise": true,
+  "camelcase": true,
+  "curly": true,
+  "eqeqeq": true,
+  "forin": true,
+  "freeze": true,
+  "noarg": true,
+  "nonew": true,
+  "singleGroups": false,
+  "undef": true,
+  "unused": true,
+  "globals": {
+    "console": true,
+    "Buffer": true,
+    "setTimeout": true,
+    "clearTimeout": true,
+    "setInterval": true,
+    "clearInterval": true,
+    "require": false,
+    "module": false,
+    "exports": true,
+    "global": false,
+
+    "describe": false,
+    "before": false,
+    "it": false,
+    "expect": false
+  }
+}
