@@ -1,21 +1,19 @@
 /*jshint expr:true */
-var jBinary = require('jbinary')
+var fs = require('fs')
+var expect = require('chai').expect
 
+var jBinary = require('jbinary')
 var MAT = require('../index.js')
 
 describe('Scalar primitives mat file', function () {
-  var jb
   var mat
 
   before(function (done) {
-    jb = new jBinary
-          .load('test/data/scalar_primitives.mat', MAT)
-          .then(function (bin) {
-            mat = bin.read('mat')
-            done();
-          }, function (err) {
-            console.log(err)
-          })
+    fs.readFile('test/data/scalar_primitives.mat', function (err, data) {
+      var jb = new jBinary(data, MAT)
+      mat = jb.read('mat')
+      done()
+    })
   })
 
   describe('File metadata', function () {
@@ -254,14 +252,11 @@ describe('Row vector primitives mat file', function () {
   var mat
 
   before(function (done) {
-    jb = new jBinary
-          .load('test/data/row_primitives.mat', MAT)
-          .then(function (bin) {
-            mat = bin.read('mat')
-            done();
-          }, function (err) {
-            console.log(err)
-          })
+    fs.readFile('test/data/row_primitives.mat', function (err, data) {
+      var jb = new jBinary(data, MAT)
+      mat = jb.read('mat')
+      done()
+    })
   })
 
   describe('File metadata', function () {
@@ -497,14 +492,11 @@ describe('Column vector primitives mat file', function () {
   var mat
 
   before(function (done) {
-    jb = new jBinary
-          .load('test/data/column_primitives.mat', MAT)
-          .then(function (bin) {
-            mat = bin.read('mat')
-            done();
-          }, function (err) {
-            console.log(err)
-          })
+    fs.readFile('test/data/column_primitives.mat', function (err, data) {
+      var jb = new jBinary(data, MAT)
+      mat = jb.read('mat')
+      done()
+    })
   })
 
   describe('File metadata', function () {
@@ -740,15 +732,13 @@ describe('2D primitives mat file', function () {
   var mat
 
   before(function (done) {
-    jb = new jBinary
-    .load('test/data/2d_primitives.mat', MAT)
-    .then(function (bin) {
-      mat = bin.read('mat')
-      done();
-    }, function (err) {
-      console.log(err)
+    fs.readFile('test/data/2d_primitives.mat', function (err, data) {
+      var jb = new jBinary(data, MAT)
+      mat = jb.read('mat')
+      done()
     })
   })
+
 
   describe('File metadata', function () {
     it('should have defined mat', function() {
@@ -999,13 +989,10 @@ describe('3D primitives mat file', function () {
   var mat
 
   before(function (done) {
-    jb = new jBinary
-    .load('test/data/3d_primitives.mat', MAT)
-    .then(function (bin) {
-      mat = bin.read('mat')
-      done();
-    }, function (err) {
-      console.log(err)
+    fs.readFile('test/data/3d_primitives.mat', function (err, data) {
+      var jb = new jBinary(data, MAT)
+      mat = jb.read('mat')
+      done()
     })
   })
 
@@ -1260,15 +1247,13 @@ describe('Scalar struct mat file', function () {
   var jb
   var mat
   before(function (done) {
-    jb = new jBinary
-    .load('test/data/scalar_struct.mat', MAT)
-    .then(function (bin) {
-      mat = bin.read('mat')
-      done();
-    }, function (err) {
-      console.log(err)
+    fs.readFile('test/data/scalar_struct.mat', function (err, data) {
+      var jb = new jBinary(data, MAT)
+      mat = jb.read('mat')
+      done()
     })
   })
+
   it('should have correct number of variables', function () {
     expect(mat.variables).to.have.length(1)
   })
@@ -1336,15 +1321,13 @@ describe('Row vector struct mat file', function () {
   var jb
   var mat
   before(function (done) {
-    jb = new jBinary
-    .load('test/data/row_struct.mat', MAT)
-    .then(function (bin) {
-      mat = bin.read('mat')
-      done();
-    }, function (err) {
-      console.log(err)
+    fs.readFile('test/data/row_struct.mat', function (err, data) {
+      var jb = new jBinary(data, MAT)
+      mat = jb.read('mat')
+      done()
     })
   })
+
   it('should have correct number of variables', function () {
     expect(mat.variables).to.have.length(1)
   })
@@ -1424,16 +1407,15 @@ describe('Row vector struct mat file', function () {
 describe('Column vector struct mat file', function () {
   var jb
   var mat
+
   before(function (done) {
-    jb = new jBinary
-    .load('test/data/column_struct.mat', MAT)
-    .then(function (bin) {
-      mat = bin.read('mat')
-      done();
-    }, function (err) {
-      console.log(err)
+    fs.readFile('test/data/column_struct.mat', function (err, data) {
+      var jb = new jBinary(data, MAT)
+      mat = jb.read('mat')
+      done()
     })
   })
+
   it('should have correct number of variables', function () {
     expect(mat.variables).to.have.length(1)
   })
@@ -1514,15 +1496,13 @@ describe('Matrix struct mat file', function () {
   var jb
   var mat
   before(function (done) {
-    jb = new jBinary
-    .load('test/data/2d_struct.mat', MAT)
-    .then(function (bin) {
-      mat = bin.read('mat')
-      done();
-    }, function (err) {
-      console.log(err)
+    fs.readFile('test/data/2d_struct.mat', function (err, data) {
+      var jb = new jBinary(data, MAT)
+      mat = jb.read('mat')
+      done()
     })
   })
+
   it('should have correct number of variables', function () {
     expect(mat.variables).to.have.length(1)
   })
@@ -1611,15 +1591,13 @@ describe('Sparse matrices mat file', function () {
   var jb
   var mat
   before(function (done) {
-    jb = new jBinary
-    .load('test/data/sparse.mat', MAT)
-    .then(function (bin) {
-      mat = bin.read('mat')
-      done();
-    }, function (err) {
-      console.log(err)
+    fs.readFile('test/data/sparse.mat', function (err, data) {
+      var jb = new jBinary(data, MAT)
+      mat = jb.read('mat')
+      done()
     })
   })
+
   it('should have correct number of variables', function () {
     expect(mat.variables).to.have.length(4)
   })
@@ -1786,15 +1764,13 @@ describe('Cell matrices mat file', function () {
   var jb
   var mat
   before(function (done) {
-    jb = new jBinary
-    .load('test/data/cell.mat', MAT)
-    .then(function (bin) {
-      mat = bin.read('mat')
-      done();
-    }, function (err) {
-      console.log(err)
+    fs.readFile('test/data/cell.mat', function (err, data) {
+      var jb = new jBinary(data, MAT)
+      mat = jb.read('mat')
+      done()
     })
   })
+
   it('should have correct number of variables', function () {
     expect(mat.variables).to.have.length(4)
   })
@@ -1965,15 +1941,13 @@ describe('Object mat file', function () {
   var jb
   var mat
   before(function (done) {
-    jb = new jBinary
-    .load('test/data/object.mat', MAT)
-    .then(function (bin) {
-      mat = bin.read('mat')
-      done();
-    }, function (err) {
-      console.log(err)
+    fs.readFile('test/data/object.mat', function (err, data) {
+      var jb = new jBinary(data, MAT)
+      mat = jb.read('mat')
+      done()
     })
   })
+
   it('should have correct number of variables', function () {
     expect(mat.variables).to.have.length(1)
   })
@@ -2046,15 +2020,13 @@ describe('Empty values tests', function () {
   var jb
   var mat
   before(function (done) {
-    jb = new jBinary
-    .load('test/data/empty.mat', MAT)
-    .then(function (bin) {
-      mat = bin.read('mat')
-      done();
-    }, function (err) {
-      console.log(err)
+    fs.readFile('test/data/empty.mat', function (err, data) {
+      var jb = new jBinary(data, MAT)
+      mat = jb.read('mat')
+      done()
     })
   })
+
   it('should have correct number of variables', function () {
     expect(mat.variables).to.have.length(6)
   })

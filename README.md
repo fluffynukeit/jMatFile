@@ -19,6 +19,17 @@ jBinary.load('myMat.mat', MAT).then(function (binary) {
   // ... do stuff with mat
 })
 ```
+## Restrictions
+This typeset is designed for use with JS engines that fully utilize typed
+arrays.  Typed arrays provide enormous speed benefits compared to a naive
+array-based implementation because no new objects are created or pushed; memory
+is accessed directly as an array.
+
+As a result, this typeset only works with JS engines that fully support typed
+arrays.  As of this writing, this restriction knowingly excludes:
+
+* `phantomjs` because it does not support `Float64Array`
+* `nodejs` because of jdataview's special treatment of node Buffers
 
 ## Mat object format
 

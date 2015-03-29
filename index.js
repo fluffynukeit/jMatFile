@@ -70,7 +70,7 @@ var structure = function(size, nameLength, fieldNames, fieldValues) {
   // between so that each is nameLength
   var fieldNameArr = new Array(fieldNames.length/nameLength)
   for (var i = 0; i < fieldNameArr.length; i++) {
-    var fieldName = bytes2String(fieldNames.slice(i*nameLength, (i+1)*nameLength))
+    var fieldName = bytes2String(fieldNames.subarray(i*nameLength, (i+1)*nameLength))
     fieldNameArr[i] = fieldName
   }
   // With the field names collected, we can build the extractor function
@@ -136,7 +136,8 @@ var interpMiMatrix = function (raw) {
   var classVal = arrFlags & 0xFF
   var matClass = classLkup[classVal]
 
-  miMat.size = raw[1].data
+  // Size is small, so the convenience of a normal array makes sense
+  miMat.size = Array.prototype.slice.call(raw[1].data)
   miMat.numel = miMat.size.reduce(function (a,b) { return a*b })
   // Convention: scalars cannot be empty, but vectors can be
   var isScalar = miMat.numel === 1 
@@ -292,12 +293,28 @@ var matConfig = {
       read: function (ctx) {
         var elems = []
         var view = this.binary.view
-        var startPos = view.tell()
-        var len = ctx.tag.numBytes
-        while (view.tell() < startPos + len && view.tell() < view.byteLength) {
-          elems.push(this.binary.read(ctx.tag.type))
-        }
-          
+        var b = view.buffer
+        var s = view.tell()
+        var l = ctx.tag.numBytes
+        // length used (m) should never cause reading outside of buffer length
+        var m = (s + l > view.byteLength) ? view.byteLength - s : l
+        switch (ctx.tag.type) {
+          // If the underlying data can be mapped to a typed array, do it and
+          // skip ahead in buffer.  Huge processing savings for big arrays.
+          case 'miINT8':  elems = new Int8Array(b,s,m);       view.skip(m); break;
+          case 'miUINT8': elems = new Uint8Array(b,s,m);      view.skip(m); break; 
+          case 'miINT16': elems = new Int16Array(b,s,m/2);    view.skip(m); break;
+          case 'miUINT16':elems = new Uint16Array(b,s,m/2);   view.skip(m); break;
+          case 'miINT32': elems = new Int32Array(b,s,m/4);    view.skip(m); break;
+          case 'miUINT32':elems = new Uint32Array(b,s,m/4);   view.skip(m); break;
+          case 'miSINGLE':elems = new Float32Array(b,s,m/4);  view.skip(m); break;
+          case 'miDOUBLE':elems = new Float64Array(b,s,m/8);  view.skip(m); break;
+
+          default: 
+            while (view.tell() < s + m) {
+              elems.push(this.binary.read(ctx.tag.type))
+            }
+        } 
         return elems
       }
   }),

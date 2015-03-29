@@ -22,10 +22,5 @@
     "module": false,
     "exports": true,
     "global": false,
-
-    "describe": false,
-    "before": false,
-    "it": false,
-    "expect": false
   }
 }
